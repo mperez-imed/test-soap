@@ -6,9 +6,11 @@ services:
     build: .
     ports:
       - "8000:8000"
+    volumes:
+      - .:/usr/src/app
     environment:
       #NODE
-      ENV: PROD
+      ENV: DEV
       PORT : 8000
       DATABASE: test
       USER: mperez
