@@ -1,0 +1,65 @@
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:wsUser" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:wsUser" name="wsUser">
+    <types>
+        <xsd:schema targetNamespace="urn:wsUser">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+            <xsd:complexType name="validateRequest">
+                <xsd:all>
+                    <xsd:element name="rut" type="xsd:string" />
+                    <xsd:element name="email" type="xsd:string" />
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="confirmRequest">
+                <xsd:all>
+                    <xsd:element name="email" type="xsd:string" />
+                </xsd:all>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+    <message name="validateRequest">
+        <part name="validateRequest" type="tns:validateRequest" />
+    </message>
+    <message name="confirmRequest">
+        <part name="confirmRequest" type="tns:confirmRequest" />
+    </message>
+    <message name="genericResponse">
+        <part name="status" type="tns:int" />
+        <part name="message" type="tns:string" />
+    </message>
+    <portType name="userPortType">
+        <operation name="validate">
+            <input message="tns:validateRequest" />
+            <output message="tns:genericResponse" />
+        </operation>
+        <operation name="confirm">
+            <input message="tns:confirmRequest" />
+            <output message="tns:genericResponse" />
+        </operation>
+    </portType>
+    <binding name="userBinding" type="tns:userPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="validate">
+            <soap:operation soapAction="" style="rpc" />
+            <input>
+                <soap:body use="encoded" namespace="urn:wsUser" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:wsUser" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="confirm">
+            <soap:operation soapAction="" style="rpc" />
+            <input>
+                <soap:body use="encoded" namespace="urn:confirm" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:confirm" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
+    <service name="userService">
+        <port name="userPort" binding="tns:userBinding">
+            <soap:address location="http://localhost:8000/users" />
+        </port>
+    </service>
+</definitions>

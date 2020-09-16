@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  soap-service:
+    container_name: soap-service
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      #NODE
+      ENV: DEV
+      PORT : 8000
+      DATABASE: test
+      USER: mperez
+      PASSWORD: password
+      HOST: localhost
+    tty: true
+    stdin_open: true
